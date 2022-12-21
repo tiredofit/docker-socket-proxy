@@ -1,0 +1,13 @@
+#!/command/with-contenv bash
+
+source /assets/functions/00-container
+prepare_service
+PROCESS_NAME="docker-socket-proxy"
+
+if [ ! -f "/tmp/.container/container-restart" ] ; then
+    setup_container_mode
+    sanity_test
+    configure_nginx
+fi
+
+liftoff

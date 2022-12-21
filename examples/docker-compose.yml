@@ -1,0 +1,22 @@
+version: '2.4'
+services:
+
+  socket-proxy-app:
+    image: tiredofit/docker-socket-proxy:latest
+    container_name: docker-socket-proxy-app
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - TIMEZONE=America/Vancouver
+      - CONTAINER_NAME=docker-socket-proxy-app
+
+      - ALLOWED_IPS=0.0.0.0/0
+      - DOCKER_SOCKET_URI=unix:/var/run/docker.sock
+      - MODE=events,ping,version
+    networks:
+      - socket-proxy
+    restart: always
+
+networks:
+  socket-proxy:
+    external: true
