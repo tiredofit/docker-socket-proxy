@@ -5,8 +5,8 @@ prepare_service
 PROCESS_NAME="docker-socket-proxy"
 
 if [ ! -f "/tmp/.container/container-restart" ] ; then
-    setup_container_mode
     sanity_test
+    setup_container_mode
     configure_nginx
 fi
 
