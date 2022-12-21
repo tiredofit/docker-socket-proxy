@@ -40,7 +40,6 @@ This will build a Docker Image to proxy your [Docker](https://docker.com) socket
   - [Feature Requests](#feature-requests)
   - [Updates](#updates)
 - [License](#license)
-- [References](#references)
 
 ## Prerequisites and Assumptions
 -  You have access to your docker socket
@@ -166,6 +165,3 @@ These images were built to serve a specific need in a production environment and
 ## License
 MIT. See [LICENSE](LICENSE) for more details.
 
-## References
-
-* <https://>
