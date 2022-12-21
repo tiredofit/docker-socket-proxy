@@ -1,8 +1,8 @@
-# github.com/tiredofit/socket-proxy
+# github.com/tiredofit/docker-socket-proxy
 
-[![GitHub release](https://img.shields.io/github/v/tag/tiredofit/socket-proxy?style=flat-square)](https://github.com/tiredofit/socket-proxy/releases/latest)
-[![Build Status](https://img.shields.io/github/workflow/status/tiredofit/socket-proxy/build?style=flat-square)](https://github.com/tiredofit/socket-proxy/actions?query=workflow%3Abuild)
-[![Docker Stars](https://img.shields.io/docker/stars/tiredofit/socket-proxy.svg?style=flat-square&logo=docker)](https://hub.docker.com/r/tiredofit/socket-proxy/)
+[![GitHub release](https://img.shields.io/github/docker-socket-proxy/tag/tiredofit/socket-proxy?style=flat-square)](https://github.com/tiredofit/docker-socket-proxy/releases/latest)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/tiredofit/docker-socket-proxy/main.yml?branch=main&style=flat-square)](https://github.com/tiredofit/docker-socket-proxy/actions)
+[![Docker Stars](https://img.shields.io/docker/stars/tiredofit/dockersocket-proxy.svg?style=flat-square&logo=docker)](https://hub.docker.com/r/tiredofit/socket-proxy/)
 [![Docker Pulls](https://img.shields.io/docker/pulls/tiredofit/socket-proxy.svg?style=flat-square&logo=docker)](https://hub.docker.com/r/tiredofit/socket-proxy/)
 [![Become a sponsor](https://img.shields.io/badge/sponsor-tiredofit-181717.svg?logo=github&style=flat-square)](https://github.com/sponsors/tiredofit)
 [![Paypal Donate](https://img.shields.io/badge/donate-paypal-00457c.svg?logo=paypal&style=flat-square)](https://www.paypal.me/tiredofit)
@@ -103,6 +103,7 @@ Be sure to view the following repositories to understand all the customizable op
 | ------------------- | ----------------------------------------------------------------------------------------------------- | --------------------------- |
 | `ALLOWED_IPS`       | Comma seperated list of IPs or networks that can access the endpoints                                 | `0.0.0.0/0`                 |
 | `DOCKER_SOCKET_URI` | How to connect to the docker socket inside the container                                              | `unix:/var/run/docker.sock` |
+| `ENABLE_READONLY`   | Enable Read Only Mode (`GET`) otherwise allow Read-Write(`GET POST`)                                  | `TRUE`                      |
 | `MODE`              | Proxying Mode - Allow access to endpoints                                                             |                             |
 |                     | Endpoint list: [https://docs.docker.com/engine/api/v1.41/](https://docs.docker.com/engine/api/v1.41/) |                             |
 |                     | Pre Made: `NONE` (none at all), `DEFAULT` (events,ping,version), `ALL` (All of them)                  |                             |

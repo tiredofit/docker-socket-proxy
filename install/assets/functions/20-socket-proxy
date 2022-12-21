@@ -88,6 +88,13 @@ EOF
     if var_true "${API_ENABLE_VOLUMES}" ; then
         sed -i "/location ~ \/volumes {/a\                ${ip_allow}" /etc/nginx/sites.available/docker-socket-proxy.conf
     fi
+
+    if var_true "${ENABLE_READONLY}" ; then
+        print_notice "Enabling Read Only access to socket (GET)"
+        sed -i "s|GET POST|GET|g" /etc/nginx/sites.available/docker-socket-proxy.conf
+    else
+        print_notice "Enabling Read-Write access to socket (GET | POST)"
+    fi
 }
 
 sanity_test() {
@@ -136,6 +143,7 @@ setup_container_mode() {
             echo "API_ENABLE_PING=TRUE" >> /tmp/.container/docker-socket-proxy/.mode-env
             echo "API_ENABLE_VERSION=TRUE" >> /tmp/.container/docker-socket-proxy/.mode-env
         else
+            print_notice "Enabling access to '${MODE,,}' endpoints"
             modes=$(echo "${MODE,,}" | tr "," "\n")
             for mode in $modes; do
                 case "${mode,,}" in

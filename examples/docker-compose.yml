@@ -12,6 +12,7 @@ services:
 
       - ALLOWED_IPS=0.0.0.0/0
       - DOCKER_SOCKET_URI=unix:/var/run/docker.sock
+      - ENABLE_READONLY=TRUE
       - MODE=events,ping,version
     networks:
       - socket-proxy
