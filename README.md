@@ -67,7 +67,7 @@ Images are built primarily for `amd64` architecture, and may also include builds
 
 ### Quick Start
 
-* The quickest way to get started is using [docker-compose](https://docs.docker.com/compose/). See the examples folder for a working [docker-compose.yml](examples/docker-compose.yml) that can be modified for development or production use.
+* The quickest way to get started is using [docker-compose](https://docs.docker.com/compose/). See the examples folder for a working [compose.yml](examples/compose.yml) that can be modified for development or production use.
 
 * Setup any networking to allow for exposing the listening port.
 * Set various [environment variables](#environment-variables) to understand the capabilities of this image.
@@ -130,12 +130,14 @@ Be sure to view the following repositories to understand all the customizable op
 |                     | `TASKS` /tasks                                                                                        |                             |
 |                     | `VERSION` version                                                                                     |                             |
 |                     | `VOLUMES` /volumes                                                                                    |                             |
-
+| `TIMEOUT_CONNECT`   | Timeout for initial connection to docker socket                                                       | `10s`                       |
+| `TIMEOUT_READ`      | Read timeout to docker socket if no activity                                                          | `3600s`                     |
+| `TIMEOUT_SEND`      | Send timeout to docker socket if no activity                                                          | `3600s`                     |
 
 ### Networking
 | Port   | Protocol | Description   |
 | ------ | -------- | ------------- |
-| `2375` | tcp      | Docker Socket |
+| `2375` | `tcp`    | Docker Socket |
 
 ## Maintenance
 ### Shell Access
@@ -150,7 +152,7 @@ docker exec -it (whatever your container name is) bash
 These images were built to serve a specific need in a production environment and gradually have had more functionality added based on requests from the community.
 ### Usage
 - The [Discussions board](../../discussions) is a great place for working with the community on tips and tricks of using this image.
-- Consider [sponsoring me](https://github.com/sponsors/tiredofit) personalized support.
+- Consider [sponsoring me](https://github.com/sponsors/tiredofit) for personalized support.
 ### Bugfixes
 - Please, submit a [Bug Report](issues/new) if something isn't working as expected. I'll do my best to issue a fix in short order.
 

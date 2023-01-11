@@ -1,6 +1,4 @@
-version: '2.4'
 services:
-
   socket-proxy-app:
     image: tiredofit/docker-socket-proxy:latest
     container_name: docker-socket-proxy-app

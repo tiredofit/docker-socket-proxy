@@ -5,16 +5,23 @@ configure_nginx() {
 
     sed -i "s|\$http_x_forwarded_for|\$remote_addr|g" /etc/nginx/snippets/logging.conf
 
+    update_template /etc/nginx/templates/proxy_pass.template \
+                                                                TIMEOUT_CONNECT \
+                                                                TIMEOUT_READ \
+                                                                TIMEOUT_SEND
+    print_notice "Connection Timeout: ${TIMEOUT_CONNECT}"
+    print_notice "Read Timeout: ${TIMEOUT_READ}"
+    print_notice "Send Timeout: ${TIMEOUT_SEND}"
+
     allowed_ip=$(echo "${ALLOWED_IPS}" | tr "," "\n")
     for allowed_ip in ${allowed_ip}; do
-          ip_allow="$(echo ${ip_allow} ; cat <<EOF
+            print_notice "Allowing IP: ${allowed_ip}"
+            ip_allow="$(echo ${ip_allow} ; cat <<EOF
                 allow ${allowed_ip};
 EOF
         )"
     done
     ip_allow=$(echo $ip_allow | uniq)
-
-    #sed "/location \/ {/a\            ${ip_allow}" /etc/nginx/sites.available/docker-socket-proxy.conf
 
     if var_true "${API_ENABLE_AUTH}" ; then
         sed -i "/location ~ \/auth {/a\                ${ip_allow}" /etc/nginx/sites.available/docker-socket-proxy.conf
