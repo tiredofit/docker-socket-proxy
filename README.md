@@ -57,7 +57,7 @@ docker pull docker.io/tiredofdit/socket-proxy:(imagetag)
 Builds of the image are also available on the [Github Container Registry](https://github.com/tiredofit/docker-socket-proxy/pkgs/container/docker-socket-proxy) 
  
 ```
-docker pull ghcr.io/tiredofit/docker-socket-proxy/pkgs/container/docker-socket-proxy):(imagetag)
+docker pull ghcr.io/tiredofit/docker-socket-proxy:(imagetag)
 ``` 
 
 The following image tags are available along with their tagged release based on what's written in the [Changelog](CHANGELOG.md):
