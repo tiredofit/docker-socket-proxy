@@ -52,7 +52,7 @@ Clone this repository and build the image with `docker build -t (imagename) .`
 Builds of the image are available on [Docker Hub](https://hub.docker.com/r/tiredofit/socket-proxy)
 
 ```bash
-docker pull docker.io/tiredofdit/socket-proxy:(imagetag)
+docker pull docker.io/tiredofit/socket-proxy:(imagetag)
 ```
 Builds of the image are also available on the [Github Container Registry](https://github.com/tiredofit/docker-socket-proxy/pkgs/container/docker-socket-proxy) 
  
