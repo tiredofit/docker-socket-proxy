@@ -10,22 +10,18 @@ This repository will build a container to proxy your Docker Socket. It can help 
 
 ## Table of Contents
 
+
 - [About](#about)
 - [Maintainer](#maintainer)
 - [Table of Contents](#table-of-contents)
+- [Prerequisites and Assumptions](#prerequisites-and-assumptions)
 - [Installation](#installation)
   - [Prebuilt Images](#prebuilt-images)
   - [Quick Start](#quick-start)
   - [Persistent Storage](#persistent-storage)
-- [Configuration](#configuration)
   - [Environment Variables](#environment-variables)
     - [Base Images used](#base-images-used)
     - [Core Configuration](#core-configuration)
-    - [Virus Definitions Configuration](#virus-definitions-configuration)
-    - [Virus Scanning Settings](#virus-scanning-settings)
-    - [Scanning Limits](#scanning-limits)
-    - [Alerting Settings](#alerting-settings)
-  - [Users and Groups](#users-and-groups)
   - [Networking](#networking)
 - [Maintenance](#maintenance)
   - [Shell Access](#shell-access)
@@ -34,8 +30,9 @@ This repository will build a container to proxy your Docker Socket. It can help 
 - [License](#license)
 
 ## Prerequisites and Assumptions
--  You have access to your docker socket
--
+
+- You have access to your docker socket
+
 ## Installation
 
 ### Prebuilt Images
@@ -64,10 +61,10 @@ Example:
 
 `ghcr.io/nfrastack/docker-socket-proxy:alpine`
 
-* `latest` will be the most recent commit
-* An otpional `tag` may exist that matches the [CHANGELOG](CHANGELOG.md) - These are the safest
-* If it is built for multiple distributions there may exist a value of `alpine` or `debian`
-* If there are multiple distribution variations it may include a version - see the registry for availability
+- `latest` will be the most recent commit
+- An otpional `tag` may exist that matches the [CHANGELOG](CHANGELOG.md) - These are the safest
+- If it is built for multiple distributions there may exist a value of `alpine` or `debian`
+- If there are multiple distribution variations it may include a version - see the registry for availability
 
 Have a look at the container registries and see what tags are available.
 
@@ -77,10 +74,10 @@ Images are built for `amd64` by default, with optional support for `arm64` and o
 
 ### Quick Start
 
-* The quickest way to get started is using [docker-compose](https://docs.docker.com/compose/). See the examples folder for a working [compose.yml](examples/compose.yml) that can be modified for your use.
+- The quickest way to get started is using [docker-compose](https://docs.docker.com/compose/). See the examples folder for a working [compose.yml](examples/compose.yml) that can be modified for your use.
 
-* Map [persistent storage](#persistent-storage) for access to configuration and data files for backup.
-* Set various [environment variables](#environment-variables) to understand the capabilities of this image.
+- Map [persistent storage](#persistent-storage) for access to configuration and data files for backup.
+- Set various [environment variables](#environment-variables) to understand the capabilities of this image.
 
 Point your applications to to this new endpoint at http://(your_container_name:2375)
 
@@ -106,7 +103,7 @@ Be sure to view the following repositories to understand all the customizable op
 
 Below is the complete list of available options that can be used to customize your installation.
 
-* Variables showing an 'x' under the `Advanced` column can only be set if the containers advanced functionality is enabled.
+- Variables showing an 'x' under the `Advanced` column can only be set if the containers advanced functionality is enabled.
 
 #### Core Configuration
 
