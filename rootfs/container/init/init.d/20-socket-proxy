@@ -1,0 +1,16 @@
+#!/command/with-contenv bash
+# SPDX-FileCopyrightText: © 2025 Nfrastack <code@nfrastack.com>
+#
+# SPDX-License-Identifier: MIT
+
+source /container/base/functions/container/init
+prepare_service 20-socket-proxy
+SERVICE_NAME="docker-socket-proxy"
+
+if [ ! -f "/container/state/restart" ] ; then
+    _socketproxy_sanity_test
+    _socketproxy_setup_container_mode
+    _socketproxy_configure_nginx
+fi
+
+liftoff

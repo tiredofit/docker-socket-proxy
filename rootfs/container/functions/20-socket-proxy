@@ -1,6 +1,8 @@
-#!/command/with-contenv bash
+# SPDX-FileCopyrightText: © 2025 Nfrastack <code@nfrastack.com>
+#
+# SPDX-License-Identifier: MIT
 
-configure_nginx() {
+_socketproxy_configure_nginx() {
     update_template /etc/nginx/sites.available/docker-socket-proxy.conf DOCKER_SOCKET_URI
 
     sed -i "s|\$http_x_forwarded_for|\$remote_addr|g" /etc/nginx/snippets/logging.conf
@@ -104,7 +106,7 @@ EOF
     fi
 }
 
-sanity_test() {
+_socketproxy_sanity_test() {
     if [[ "${DOCKER_SOCKET_URI}" =~ ^unix:.* ]] ; then
         if [ ! -S "${DOCKER_SOCKET_URI/unix:/}" ] ; then
             print_error "[sanity_test] Can't access Docker socket at '${DOCKER_SOCKET_URI/unix:/}'"
@@ -113,42 +115,42 @@ sanity_test() {
     fi
 }
 
-setup_container_mode() {
-    if [ -f "/tmp/.container/docker-socket-proxy/.mode-env" ]; then
+_socketproxy_setup_container_mode() {
+    if [ -f "/container/state/socket-proxy/.mode-env" ]; then
         print_debug "[setup_container_mode] Importing MODE environment generated variables"
-        source /tmp/.container/docker-socket-proxy/.mode-env
+        source /container/state/socket-proxy/.mode-env
     else
-        mkdir -p /tmp/.container/docker-socket-proxy/
+        mkdir -p /container/state/socket-proxy/
         if [ "${MODE,,}" = "aio" ] || [ "${MODE,,}" = "all" ] ; then
             print_debug "[setup_container_mode] Container Mode: All"
             print_debug "[setup_container_mode] Creating MODE environment generated variables"
-            echo "API_ENABLE_AUTH=TRUE" >> /tmp/.container/docker-socket-proxy/.mode-env
-            echo "API_ENABLE_BUILD=TRUE" >> /tmp/.container/docker-socket-proxy/.mode-env
-            echo "API_ENABLE_COMMIT=TRUE" >> /tmp/.container/docker-socket-proxy/.mode-env
-            echo "API_ENABLE_CONFIGS=TRUE" >> /tmp/.container/docker-socket-proxy/.mode-env
-            echo "API_ENABLE_CONTAINERS=TRUE" >> /tmp/.container/docker-socket-proxy/.mode-env
-            echo "API_ENABLE_DISTRIBUTION=TRUE" >> /tmp/.container/docker-socket-proxy/.mode-env
-            echo "API_ENABLE_EVENTS=TRUE" >> /tmp/.container/docker-socket-proxy/.mode-env
-            echo "API_ENABLE_EXEC=TRUE" >> /tmp/.container/docker-socket-proxy/.mode-env
-            echo "API_ENABLE_GRPC=TRUE" >> /tmp/.container/docker-socket-proxy/.mode-env
-            echo "API_ENABLE_IMAGES=TRUE" >> /tmp/.container/docker-socket-proxy/.mode-env
-            echo "API_ENABLE_INFO=TRUE" >> /tmp/.container/docker-socket-proxy/.mode-env
-            echo "API_ENABLE_NETWORKS=TRUE" >> /tmp/.container/docker-socket-proxy/.mode-env
-            echo "API_ENABLE_NODES=TRUE" >> /tmp/.container/docker-socket-proxy/.mode-env
-            echo "API_ENABLE_PING=TRUE" >> /tmp/.container/docker-socket-proxy/.mode-env
-            echo "API_ENABLE_PLUGINS=TRUE" >> /tmp/.container/docker-socket-proxy/.mode-env
-            echo "API_ENABLE_SECRETS=TRUE" >> /tmp/.container/docker-socket-proxy/.mode-env
-            echo "API_ENABLE_SERVICES=TRUE" >> /tmp/.container/docker-socket-proxy/.mode-env
-            echo "API_ENABLE_SESSION=TRUE" >> /tmp/.container/docker-socket-proxy/.mode-env
-            echo "API_ENABLE_SWARM=TRUE" >> /tmp/.container/docker-socket-proxy/.mode-env
-            echo "API_ENABLE_SYSTEM=TRUE" >> /tmp/.container/docker-socket-proxy/.mode-env
-            echo "API_ENABLE_TASKS=TRUE" >> /tmp/.container/docker-socket-proxy/.mode-env
-            echo "API_ENABLE_VERSION=TRUE" >> /tmp/.container/docker-socket-proxy/.mode-env
-            echo "API_ENABLE_VOLUMES=TRUE" >> /tmp/.container/docker-socket-proxy/.mode-env
+            echo "API_ENABLE_AUTH=TRUE" >> /container/state/socket-proxy/.mode-env
+            echo "API_ENABLE_BUILD=TRUE" >> /container/state/socket-proxy/.mode-env
+            echo "API_ENABLE_COMMIT=TRUE" >> /container/state/socket-proxy/.mode-env
+            echo "API_ENABLE_CONFIGS=TRUE" >> /container/state/socket-proxy/.mode-env
+            echo "API_ENABLE_CONTAINERS=TRUE" >> /container/state/socket-proxy/.mode-env
+            echo "API_ENABLE_DISTRIBUTION=TRUE" >> /container/state/socket-proxy/.mode-env
+            echo "API_ENABLE_EVENTS=TRUE" >> /container/state/socket-proxy/.mode-env
+            echo "API_ENABLE_EXEC=TRUE" >> /container/state/socket-proxy/.mode-env
+            echo "API_ENABLE_GRPC=TRUE" >> /container/state/socket-proxy/.mode-env
+            echo "API_ENABLE_IMAGES=TRUE" >> /container/state/socket-proxy/.mode-env
+            echo "API_ENABLE_INFO=TRUE" >> /container/state/socket-proxy/.mode-env
+            echo "API_ENABLE_NETWORKS=TRUE" >> /container/state/socket-proxy/.mode-env
+            echo "API_ENABLE_NODES=TRUE" >> /container/state/socket-proxy/.mode-env
+            echo "API_ENABLE_PING=TRUE" >> /container/state/socket-proxy/.mode-env
+            echo "API_ENABLE_PLUGINS=TRUE" >> /container/state/socket-proxy/.mode-env
+            echo "API_ENABLE_SECRETS=TRUE" >> /container/state/socket-proxy/.mode-env
+            echo "API_ENABLE_SERVICES=TRUE" >> /container/state/socket-proxy/.mode-env
+            echo "API_ENABLE_SESSION=TRUE" >> /container/state/socket-proxy/.mode-env
+            echo "API_ENABLE_SWARM=TRUE" >> /container/state/socket-proxy/.mode-env
+            echo "API_ENABLE_SYSTEM=TRUE" >> /container/state/socket-proxy/.mode-env
+            echo "API_ENABLE_TASKS=TRUE" >> /container/state/socket-proxy/.mode-env
+            echo "API_ENABLE_VERSION=TRUE" >> /container/state/socket-proxy/.mode-env
+            echo "API_ENABLE_VOLUMES=TRUE" >> /container/state/socket-proxy/.mode-env
         elif [ "${MODE,,}" = "default" ] ; then
-            echo "API_ENABLE_EVENTS=TRUE" >> /tmp/.container/docker-socket-proxy/.mode-env
-            echo "API_ENABLE_PING=TRUE" >> /tmp/.container/docker-socket-proxy/.mode-env
-            echo "API_ENABLE_VERSION=TRUE" >> /tmp/.container/docker-socket-proxy/.mode-env
+            echo "API_ENABLE_EVENTS=TRUE" >> /container/state/socket-proxy/.mode-env
+            echo "API_ENABLE_PING=TRUE" >> /container/state/socket-proxy/.mode-env
+            echo "API_ENABLE_VERSION=TRUE" >> /container/state/socket-proxy/.mode-env
         else
             print_notice "Enabling access to '${MODE,,}' endpoints"
             modes=$(echo "${MODE,,}" | tr "," "\n")
@@ -156,99 +158,99 @@ setup_container_mode() {
                 case "${mode,,}" in
                     "auth" )
                         print_debug "[setup_container_mode] Enabling Container Mode for: AUTH"
-                        echo "API_ENABLE_AUTH=TRUE" >> /tmp/.container/docker-socket-proxy/.mode-env
+                        echo "API_ENABLE_AUTH=TRUE" >> /container/state/socket-proxy/.mode-env
                     ;;
                     "build" )
                         print_debug "[setup_container_mode] Enabling Container Mode for: BUILD"
-                        echo "API_ENABLE_BUILD=TRUE" >> /tmp/.container/docker-socket-proxy/.mode-env
+                        echo "API_ENABLE_BUILD=TRUE" >> /container/state/socket-proxy/.mode-env
                     ;;
                     "commit" )
                         print_debug "[setup_container_mode] Enabling Container Mode for: COMMIT"
-                        echo "API_ENABLE_COMMIT=TRUE" >> /tmp/.container/docker-socket-proxy/.mode-env
+                        echo "API_ENABLE_COMMIT=TRUE" >> /container/state/socket-proxy/.mode-env
                     ;;
                     "configs" )
                         print_debug "[setup_container_mode] Enabling Container Mode for: CONFIGS"
-                        echo "API_ENABLE_CONFIGS=TRUE" >> /tmp/.container/docker-socket-proxy/.mode-env
+                        echo "API_ENABLE_CONFIGS=TRUE" >> /container/state/socket-proxy/.mode-env
                     ;;
                     "containers" )
                         print_debug "[setup_container_mode] Enabling Container Mode for: CONTAINERS"
-                        echo "API_ENABLE_CONTAINERS=TRUE" >> /tmp/.container/docker-socket-proxy/.mode-env
+                        echo "API_ENABLE_CONTAINERS=TRUE" >> /container/state/socket-proxy/.mode-env
                     ;;
                     "distribution" )
                         print_debug "[setup_container_mode] Enabling Container Mode for: DISTRIBUTION"
-                        echo "API_ENABLE_DISTRIBUTION=TRUE" >> /tmp/.container/docker-socket-proxy/.mode-env
+                        echo "API_ENABLE_DISTRIBUTION=TRUE" >> /container/state/socket-proxy/.mode-env
                     ;;
                     "events" )
                         print_debug "[setup_container_mode] Enabling Container Mode for: EVENTS"
-                        echo "API_ENABLE_EVENTS=TRUE" >> /tmp/.container/docker-socket-proxy/.mode-env
+                        echo "API_ENABLE_EVENTS=TRUE" >> /container/state/socket-proxy/.mode-env
                     ;;
                     "exec" )
                         print_debug "[setup_container_mode] Enabling Container Mode for: EXEC"
-                        echo "API_ENABLE_EXEC=TRUE" >> /tmp/.container/docker-socket-proxy/.mode-env
+                        echo "API_ENABLE_EXEC=TRUE" >> /container/state/socket-proxy/.mode-env
                     ;;
                     "grpc" )
                         print_debug "[setup_container_mode] Enabling Container Mode for: GRPC"
-                        echo "API_ENABLE_GRPC=TRUE" >> /tmp/.container/docker-socket-proxy/.mode-env
+                        echo "API_ENABLE_GRPC=TRUE" >> /container/state/socket-proxy/.mode-env
                     ;;
                     "images" )
                         print_debug "[setup_container_mode] Enabling Container Mode for: IMAGES"
-                        echo "API_ENABLE_IMAGES=TRUE" >> /tmp/.container/docker-socket-proxy/.mode-env
+                        echo "API_ENABLE_IMAGES=TRUE" >> /container/state/socket-proxy/.mode-env
                     ;;
                     "info" )
                         print_debug "[setup_container_mode] Enabling Container Mode for: INFO"
-                        echo "API_ENABLE_INFO=TRUE" >> /tmp/.container/docker-socket-proxy/.mode-env
+                        echo "API_ENABLE_INFO=TRUE" >> /container/state/socket-proxy/.mode-env
                     ;;
                     "networks" )
                         print_debug "[setup_container_mode] Enabling Container Mode for: NETWORKS"
-                        echo "API_ENABLE_NETWORKS=TRUE" >> /tmp/.container/docker-socket-proxy/.mode-env
+                        echo "API_ENABLE_NETWORKS=TRUE" >> /container/state/socket-proxy/.mode-env
                     ;;
                     "nodes" )
                         print_debug "[setup_container_mode] Enabling Container Mode for: NODES"
-                        echo "API_ENABLE_NODES=TRUE" >> /tmp/.container/docker-socket-proxy/.mode-env
+                        echo "API_ENABLE_NODES=TRUE" >> /container/state/socket-proxy/.mode-env
                     ;;
                     "ping" )
                         print_debug "[setup_container_mode] Enabling Container Mode for: PING"
-                        echo "API_ENABLE_PING=TRUE" >> /tmp/.container/docker-socket-proxy/.mode-env
+                        echo "API_ENABLE_PING=TRUE" >> /container/state/socket-proxy/.mode-env
                     ;;
                     "plugins" )
                         print_debug "[setup_container_mode] Enabling Container Mode for: PLUGINS"
-                        echo "API_ENABLE_PLUGINS=TRUE" >> /tmp/.container/docker-socket-proxy/.mode-env
+                        echo "API_ENABLE_PLUGINS=TRUE" >> /container/state/socket-proxy/.mode-env
                     ;;
                     "post" )
                         print_debug "[setup_container_mode] Enabling Container Mode for: POST"
-                        echo "API_ENABLE_POST=TRUE" >> /tmp/.container/docker-socket-proxy/.mode-env
+                        echo "API_ENABLE_POST=TRUE" >> /container/state/socket-proxy/.mode-env
                     ;;
                     "secrets" )
                         print_debug "[setup_container_mode] Enabling Container Mode for: SECRETS"
-                        echo "API_ENABLE_SECRETS=TRUE" >> /tmp/.container/docker-socket-proxy/.mode-env
+                        echo "API_ENABLE_SECRETS=TRUE" >> /container/state/socket-proxy/.mode-env
                     ;;
                     "services" )
                         print_debug "[setup_container_mode] Enabling Container Mode for: SERVICES"
-                        echo "API_ENABLE_SERVICES=TRUE" >> /tmp/.container/docker-socket-proxy/.mode-env
+                        echo "API_ENABLE_SERVICES=TRUE" >> /container/state/socket-proxy/.mode-env
                     ;;
                     "session" )
                         print_debug "[setup_container_mode] Enabling Container Mode for: SESSION"
-                        echo "API_ENABLE_SESSION=TRUE" >> /tmp/.container/docker-socket-proxy/.mode-env
+                        echo "API_ENABLE_SESSION=TRUE" >> /container/state/socket-proxy/.mode-env
                     ;;
                     "swarm" )
                         print_debug "[setup_container_mode] Enabling Container Mode for: SWARM"
-                        echo "API_ENABLE_SWARM=TRUE" >> /tmp/.container/docker-socket-proxy/.mode-env
+                        echo "API_ENABLE_SWARM=TRUE" >> /container/state/socket-proxy/.mode-env
                     ;;
                     "system" )
                         print_debug "[setup_container_mode] Enabling Container Mode for: SYSTEM"
-                        echo "API_ENABLE_SYSTEM=TRUE" >> /tmp/.container/docker-socket-proxy/.mode-env
+                        echo "API_ENABLE_SYSTEM=TRUE" >> /container/state/socket-proxy/.mode-env
                     ;;
                     "tasks" )
                         print_debug "[setup_container_mode] Enabling Container Mode for: TASKS"
-                        echo "API_ENABLE_TASKS=TRUE" >> /tmp/.container/docker-socket-proxy/.mode-env
+                        echo "API_ENABLE_TASKS=TRUE" >> /container/state/socket-proxy/.mode-env
                     ;;
                     "version" )
                         print_debug "[setup_container_mode] Enabling Container Mode for: VERSION"
-                        echo "API_ENABLE_VERSION=TRUE" >> /tmp/.container/docker-socket-proxy/.mode-env
+                        echo "API_ENABLE_VERSION=TRUE" >> /container/state/socket-proxy/.mode-env
                     ;;
                     "volumes" )
                         print_debug "[setup_container_mode] Enabling Container Mode for: VOLUMES"
-                        echo "API_ENABLE_VOLUMES=TRUE" >> /tmp/.container/docker-socket-proxy/.mode-env
+                        echo "API_ENABLE_VOLUMES=TRUE" >> /container/state/socket-proxy/.mode-env
                     ;;
                     *)
                         print_error "[setup_container_mode] Unknown 'MODE' environment variable - exitting.."
@@ -257,6 +259,6 @@ setup_container_mode() {
                 esac
             done
         fi
-        source /tmp/.container/docker-socket-proxy/.mode-env
+        source /container/state/socket-proxy/.mode-env
     fi
 }

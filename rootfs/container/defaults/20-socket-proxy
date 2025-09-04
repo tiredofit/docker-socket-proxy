@@ -1,4 +1,6 @@
-#!/command/with-contenv bash
+# SPDX-FileCopyrightText: © 2025 Nfrastack <code@nfrastack.com>
+#
+# SPDX-License-Identifier: MIT
 
 ALLOWED_IPS=${ALLOWED_IPS:-"0.0.0.0/0"}
 API_ENABLE_AUTH=${API_ENABLE_AUTH:-"FALSE"}
