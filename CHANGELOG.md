@@ -1,4 +1,13 @@
-## 1.3.0 2023-08-08 <dave at tiredofit dot ca>
+## 1.3.0 2025-09-04 <dave at tiredofit dot ca>
+
+   ### Added
+      - Switch to nfrastack/container-nginx base image
+
+
+## 1.2.99 2025-09-04 <dave at tiredofit dot ca>
+
+Add EOL Notice deprecating image
+
 
 ## 1.2.1 2023-05-10 <dave at tiredofit dot ca>
 
