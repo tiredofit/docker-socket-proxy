@@ -39,7 +39,7 @@ ENV \
 
 RUN echo "" && \
     source /container/base/functions/container/build && \
-    container_build_log && \
+    container_build_log image && \
     package update && \
     package upgrade && \
     package cleanup
