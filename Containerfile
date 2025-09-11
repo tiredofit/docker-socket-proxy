@@ -24,6 +24,7 @@ COPY README.md /usr/src/container/README.md
 
 ENV \
         NGINX_ENABLE_CREATE_SAMPLE_HTML=FALSE \
+        NGINX_ENABLE_CLIENT_CACHE=NONE \
         NGINX_SITE_ENABLED=docker-socket-proxy \
         NGINX_USER=root \
         NGINX_LISTEN_PORT=2375 \

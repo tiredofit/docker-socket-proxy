@@ -1,3 +1,9 @@
+## 1.3.1 2025-09-11 <code at nfrastack dot com>
+
+   ### Changed
+      - Fix for Real IP Address not being logged properly
+
+
 ## 1.3.0 2025-09-04 <dave at tiredofit dot ca>
 
    ### Added

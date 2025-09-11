@@ -2,11 +2,11 @@
 #
 # SPDX-License-Identifier: MIT
 
-_socketproxy_configure_nginx() {
-    update_template /etc/nginx/sites.available/docker-socket-proxy.conf DOCKER_SOCKET_URI
+socketproxy_configure_nginx() {
+    sed -i "s|\$http_x_forwarded_for|\$remote_addr|g" /etc/nginx/snippets/server.available/logging.conf
 
-    sed -i "s|\$http_x_forwarded_for|\$remote_addr|g" /etc/nginx/snippets/logging.conf
-
+    update_template /etc/nginx/sites.available/docker-socket-proxy.conf \
+                                                                        DOCKER_SOCKET_URI
     update_template /etc/nginx/templates/proxy_pass.template \
                                                                 TIMEOUT_CONNECT \
                                                                 TIMEOUT_READ \
@@ -106,7 +106,7 @@ EOF
     fi
 }
 
-_socketproxy_sanity_test() {
+socketproxy_sanity_test() {
     if [[ "${DOCKER_SOCKET_URI}" =~ ^unix:.* ]] ; then
         if [ ! -S "${DOCKER_SOCKET_URI/unix:/}" ] ; then
             print_error "[sanity_test] Can't access Docker socket at '${DOCKER_SOCKET_URI/unix:/}'"
@@ -115,7 +115,7 @@ _socketproxy_sanity_test() {
     fi
 }
 
-_socketproxy_setup_container_mode() {
+socketproxy_setup_container_mode() {
     if [ -f "/container/state/socket-proxy/.mode-env" ]; then
         print_debug "[setup_container_mode] Importing MODE environment generated variables"
         source /container/state/socket-proxy/.mode-env
